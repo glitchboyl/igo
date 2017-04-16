@@ -1,8 +1,7 @@
 <template>
-<div class="inner" :class="{'appraise':!details,'appraise-details':details}">
-  <search-bar :todo="searchItems" v-if="!details"></search-bar>
-  <commodity-list :todo="commodityItems" v-if="!details"></commodity-list>
-  <router-view v-if="details"></router-view>
+<div class="inner today">
+  <search-bar :todo="searchItems"></search-bar>
+  <commodity-list :todo="commodityItems"></commodity-list>
 </div>
 </template>
 
@@ -10,11 +9,9 @@
 import Bus from '@/assets/eventBus'
 import searchBar from '../general/search-bar'
 import commodityList from '../general/commodity-list'
-import Router from '@/router'
 export default {
   data() {
     return {
-      details: Router.app.$route.path.replace('/', '').split('/')[2] ? true : false,
       searchItems: [{
         type: 'text-box',
         name: 'name',
@@ -23,127 +20,194 @@ export default {
         value: ''
       }, {
         type: 'range',
-        name: 'positive',
-        title: '好评',
+        name: 'sales',
+        title: '总销量',
         minValue: '',
         maxValue: ''
       }, {
         type: 'range',
-        name: 'neutral',
-        title: '中评',
+        name: 'reserve',
+        title: '库存',
         minValue: '',
         maxValue: ''
       }, {
         type: 'range',
-        name: 'negative',
-        title: '差评',
+        name: 'price',
+        title: '价格',
         minValue: '',
         maxValue: ''
+      }, {
+        type: 'choose-box',
+        name: 'sort',
+        title: '商品分类',
+        width: 170,
+        items: [{
+          value: 'ass'
+        }, {
+          value: 'we'
+        }, {
+          value: 'can'
+        }]
       }],
       commodityItems: {
         display: [{
-          name: 'positive',
-          title: '好评'
+          name: 'originalPrice',
+          title: '原价'
         }, {
-          name: 'neutral',
-          title: '中评'
+          name: 'crazyPrice',
+          title: '疯抢价'
         }, {
-          name: 'negative',
-          title: '差评'
+          name: 'amount',
+          title: '数量'
         }, {
-          name: 'operation',
-          title: '操作'
+          name: 'datetime',
+          title: '时间'
         }],
-        summary: '',
-        button: '',
+        summary:'共有 1252 件商品正在促销',
+        button: [{
+          value: '取消促销',
+          support() {
+            console.log('ass')
+          }
+        }, {
+          value: '添加商品',
+          support() {
+            console.log('ass')
+          }
+        }, {
+          value: '编辑',
+          support() {
+            console.log('ass')
+          }
+        }],
         commodities: [{
           id: 1,
           name: 'Astick爱时乐 香草牛奶味威化卷心酥（注心威化饼干）330g/罐 印度尼西亚进口',
           img: '/static/images/doge.jpg',
-          positive: '158',
-          neutral: '1',
-          negative: '2',
+          originalPrice: '36元',
+          crazyPrice: '17.6元',
+          amount: '2512',
+          datetime: {
+            start: '2016/12/29 10:00',
+            end: '2016/12/30 10:00'
+          },
           display: '',
           checked:false
-        }, {
+        },{
           id: 2,
           name: 'Astick爱时乐 香草牛奶味威化卷心酥（注心威化饼干）330g/罐 印度尼西亚进口',
           img: '/static/images/doge.jpg',
-          positive: '158',
-          neutral: '1',
-          negative: '2',
+          originalPrice: '36元',
+          crazyPrice: '17.6元',
+          amount: '2512',
+          datetime: {
+            start: '2016/12/29 10:00',
+            end: '2016/12/30 10:00'
+          },
           display: '',
           checked:false
-        }, {
+        },{
           id: 3,
           name: 'Astick爱时乐 香草牛奶味威化卷心酥（注心威化饼干）330g/罐 印度尼西亚进口',
           img: '/static/images/doge.jpg',
-          positive: '158',
-          neutral: '1',
-          negative: '2',
+          originalPrice: '36元',
+          crazyPrice: '17.6元',
+          amount: '2512',
+          datetime: {
+            start: '2016/12/29 10:00',
+            end: '2016/12/30 10:00'
+          },
           display: '',
           checked:false
-        }, {
+        },{
           id: 4,
           name: 'Astick爱时乐 香草牛奶味威化卷心酥（注心威化饼干）330g/罐 印度尼西亚进口',
           img: '/static/images/doge.jpg',
-          positive: '158',
-          neutral: '1',
-          negative: '2',
+          originalPrice: '36元',
+          crazyPrice: '17.6元',
+          amount: '2512',
+          datetime: {
+            start: '2016/12/29 10:00',
+            end: '2016/12/30 10:00'
+          },
           display: '',
           checked:false
-        }, {
+        },{
           id: 5,
           name: 'Astick爱时乐 香草牛奶味威化卷心酥（注心威化饼干）330g/罐 印度尼西亚进口',
           img: '/static/images/doge.jpg',
-          positive: '158',
-          neutral: '1',
-          negative: '2',
+          originalPrice: '36元',
+          crazyPrice: '17.6元',
+          amount: '2512',
+          datetime: {
+            start: '2016/12/29 10:00',
+            end: '2016/12/30 10:00'
+          },
           display: '',
           checked:false
-        }, {
+        },{
           id: 6,
           name: 'Astick爱时乐 香草牛奶味威化卷心酥（注心威化饼干）330g/罐 印度尼西亚进口',
           img: '/static/images/doge.jpg',
-          positive: '158',
-          neutral: '1',
-          negative: '2',
+          originalPrice: '36元',
+          crazyPrice: '17.6元',
+          amount: '2512',
+          datetime: {
+            start: '2016/12/29 10:00',
+            end: '2016/12/30 10:00'
+          },
           display: '',
           checked:false
-        }, {
+        },{
           id: 7,
           name: 'Astick爱时乐 香草牛奶味威化卷心酥（注心威化饼干）330g/罐 印度尼西亚进口',
           img: '/static/images/doge.jpg',
-          positive: '158',
-          neutral: '1',
-          negative: '2',
+          originalPrice: '36元',
+          crazyPrice: '17.6元',
+          amount: '2512',
+          datetime: {
+            start: '2016/12/29 10:00',
+            end: '2016/12/30 10:00'
+          },
           display: '',
           checked:false
-        }, {
+        },{
           id: 8,
           name: 'Astick爱时乐 香草牛奶味威化卷心酥（注心威化饼干）330g/罐 印度尼西亚进口',
           img: '/static/images/doge.jpg',
-          positive: '158',
-          neutral: '1',
-          negative: '2',
+          originalPrice: '36元',
+          crazyPrice: '17.6元',
+          amount: '2512',
+          datetime: {
+            start: '2016/12/29 10:00',
+            end: '2016/12/30 10:00'
+          },
           display: '',
           checked:false
-        }, {
+        },{
           id: 9,
           name: 'Astick爱时乐 香草牛奶味威化卷心酥（注心威化饼干）330g/罐 印度尼西亚进口',
           img: '/static/images/doge.jpg',
-          positive: '158',
-          neutral: '1',
-          negative: '2',
+          originalPrice: '36元',
+          crazyPrice: '17.6元',
+          amount: '2512',
+          datetime: {
+            start: '2016/12/29 10:00',
+            end: '2016/12/30 10:00'
+          },
           display: '',
           checked:false
-        }, {
+        },{
           id: 10,
           name: 'Astick爱时乐 香草牛奶味威化卷心酥（注心威化饼干）330g/罐 印度尼西亚进口',
           img: '/static/images/doge.jpg',
-          positive: '158',
-          neutral: '1',
-          negative: '2',
+          originalPrice: '36元',
+          crazyPrice: '17.6元',
+          amount: '2512',
+          datetime: {
+            start: '2016/12/29 10:00',
+            end: '2016/12/30 10:00'
+          },
           display: '',
           checked:false
         }],
@@ -155,16 +219,11 @@ export default {
     searchBar,
     commodityList
   },
-  watch: {
-    '$route' (to, from) {
-      this.details = Router.app.$route.path.replace('/', '').split('/')[2] ? true : false;
-    }
-  },
-  beforeMount() {
+  beforeMount(){
     var display = this.commodityItems.display;
     var commodities = this.commodityItems.commodities;
-    for (var i in commodities) {
-      commodities[i].display = function() {
+    for(var i in commodities){
+      commodities[i].display = function(){
         return display;
       }
     }
@@ -179,8 +238,5 @@ export default {
 </script>
 
 <style scoped>
-.appraise-details {
-  border: 1px solid #DDDDDD;
-  padding: 15px 20px;
-}
+
 </style>

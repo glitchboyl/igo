@@ -15,7 +15,7 @@
 import Bus from '@/assets/eventBus'
 import router from '@/router'
 export default {
-  data: function() {
+  data() {
     return {
       menuList: [{
         name: 'commodity',
@@ -26,6 +26,10 @@ export default {
         menuList: [{
           name: 'add',
           title: '添加新商品',
+          isActive: false
+        }, {
+          name: 'all',
+          title: '所有商品',
           isActive: false
         }, {
           name: 'sale',
@@ -103,7 +107,7 @@ export default {
     }
   },
   methods: {
-    open: function(item, twig) {
+    open(item, twig) {
       if (twig) {
         router.push("/" + item.name + "/" + twig.name);
       } else {
@@ -116,10 +120,10 @@ export default {
     }
   },
   mounted() {
-    var self = this;
-    var menu = self.menuList;
+    let self = this;
+    let menu = self.menuList;
     Bus.$on("changePosition", function(obj) {
-      for (var i in menu) {
+      for (let i in menu) {
         if (menu[i].isOpen == true && menu[i].isActive == true) {
           menu[i].isActive = false;
           if (menu[i].secondary == false) {
@@ -131,7 +135,7 @@ export default {
           menu[i].isActive = true;
         };
         if (menu[i].menuList) {
-          for (var n in menu[i].menuList) {
+          for (let n in menu[i].menuList) {
             if (menu[i].menuList[n].isActive == true) {
               menu[i].menuList[n].isActive = false;
             };
@@ -148,9 +152,10 @@ export default {
 
 <style scoped>
 .menu {
-  width: 170px;
-  margin-right: 1·0px;
+  min-width: 170px;
+  margin-right: 10px;
   border: 1px solid #DDDDDD;
+  cursor: default;
 }
 
 .menu .menu-list .menu-item {
@@ -187,9 +192,16 @@ export default {
 
 .menu .menu-list .menu-item .s-menu .s-menu-item {
   margin-bottom: 5px;
+  transition: color .3s;
+}
+
+.menu .menu-list .menu-item .s-menu .s-menu-item:hover {
+  color: #F1675F;
+  cursor: pointer;
 }
 
 .menu .menu-list .menu-item .s-menu .s-menu-item.active {
   color: #F1675F;
+  cursor: default;
 }
 </style>

@@ -15,7 +15,7 @@ import chooseBox from './choose-box'
 import range from './range'
 import submitButton from './submit-button'
 export default {
-  data: function() {
+  data() {
     return {
       button: {
         value: '搜索',

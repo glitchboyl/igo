@@ -1,3 +1,4 @@
+
 <template>
 <div class="inner index">
   <inner-item v-for="item in itemList" :todo="item" :key="item.name"></inner-item>
@@ -7,7 +8,7 @@
 <script>
 import innerItem from '@/components/index/inner-item'
 export default {
-  data: function() {
+  data() {
     return {
       itemList: [{
         name: 'total',

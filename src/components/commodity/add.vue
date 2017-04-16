@@ -1,25 +1,26 @@
 <template>
 <div class="inner add">
   <div style="flex-grow: 1;">
-    <text-box :todo="items[0]" :key="items[0].name"></text-box>
-    <choose-box :todo="items[1]" :key="items[1].name"></choose-box>
-    <text-box :todo="items[2]" :key="items[2].name"></text-box>
-    <text-box :todo="items[3]" :key="items[3].name"></text-box>
-    <text-box :todo="items[4]" :key="items[4].name"></text-box>
-    <text-box :todo="items[5]" :key="items[5].name"></text-box>
-    <text-box :todo="items[6]" :key="items[6].name"></text-box>
-    <text-box :todo="items[7]" :key="items[7].name"></text-box>
+    <text-box :todo="items['commodityName']" :key="items['commodityName'].name"></text-box>
+    <choose-box :todo="items['sort']" :key="items['sort'].name"></choose-box>
+    <text-box :todo="items['commodityBrand']" :key="items['commodityBrand'].name"></text-box>
+    <text-box :todo="items['commodityModel']" :key="items['commodityModel'].name"></text-box>
+    <text-box :todo="items['commodityApply']" :key="items['commodityApply'].name"></text-box>
+    <text-box :todo="items['commodityOrigin']" :key="items['commodityOrigin'].name"></text-box>
+    <text-box :todo="items['commodityWeigh']" :key="items['commodityWeigh'].name"></text-box>
+    <text-box :todo="items['commodityUnit']" :key="items['commodityUnit'].name"></text-box>
   </div>
   <div style="flex-grow: 5; display: inline-flex; flex-direction: column;">
+    <text-box class="special" :todo="items['barCode']" :key="items['barCode'].name"></text-box>
     <div class="images-box">
-      <span class="title">{{ items[8].title }}：</span>
+      <span class="title">{{ items['commodityPhoto'].title }}：</span>
       <div class="images-container">
         <span class="upload">&#xe6c6;</span>
       </div>
     </div>
     <div class="textarea-box">
-      <span class="title">{{ items[9].title }}：</span>
-      <textarea spellcheck="false" :name="items[9].name">{{ items[9].value }}</textarea>
+      <span class="title">{{ items['commoditySummary'].title }}：</span>
+      <textarea spellcheck="false" :name="items['commoditySummary'].name" v-model="items['commoditySummary'].value">{{ items['commoditySummary'].value }}</textarea>
     </div>
     <div style="width: 520px; text-align: right;">
       <submit-button :todo="button"></submit-button>
@@ -29,71 +30,111 @@
 </template>
 
 <script>
+import Axios from 'axios'
 import textBox from '../general/text-box'
 import chooseBox from '../general/choose-box'
 import submitButton from '../general/submit-button'
+import checkbox from '../general/checkbox'
 export default {
-  data: function() {
+  data() {
+    let self = this;
     return {
-      items: [{
-        width: 250,
-        name: 'name',
-        title: '商品名称',
-        value: ''
-      }, {
-        width: 250,
-        name: 'sort',
-        title: '商品分类',
-        value: '',
-        items: [{
-          value: 'ass'
-        }, {
-          value: 'we'
-        }, {
-          value: 'can'
-        }]
-      }, {
-        width: 250,
-        name: 'reserve',
-        title: '商品库存',
-        value: ''
-      }, {
-        width: 250,
-        name: 'price',
-        title: '商品价格',
-        value: ''
-      }, {
-        width: 250,
-        name: 'brand',
-        title: '商品品牌',
-        value: ''
-      }, {
-        width: 250,
-        name: 'origin',
-        title: '商品产地',
-        value: ''
-      }, {
-        width: 250,
-        name: 'netweight',
-        title: '商品净重',
-        value: ''
-      }, {
-        width: 250,
-        name: 'import',
-        title: '进口/国产',
-        value: ''
-      }, {
-        name: 'images',
-        title: '商品图片'
-      }, {
-        name: 'introduction',
-        title: '商品介绍',
-        value: ''
-      }],
+      items: {
+        'commodityName': {
+          width: 250,
+          name: 'commodityName',
+          title: '商品名称',
+          value: ''
+        },
+        'sort': {
+          width: 250,
+          name: 'sort',
+          title: '商品分类',
+          value: '',
+          items: [{
+            value: 'ass'
+          }, {
+            value: 'we'
+          }, {
+            value: 'can'
+          }]
+        },
+        'commodityModel': {
+          width: 250,
+          name: 'commodityModel',
+          title: '商品型号',
+          value: ''
+        },
+        'commodityApply': {
+          width: 250,
+          name: 'commodityApply',
+          title: '适用范围',
+          value: ''
+        },
+        'commodityBrand': {
+          width: 250,
+          name: 'commodityBrand',
+          title: '商品品牌',
+          value: ''
+        },
+        'commodityOrigin': {
+          width: 250,
+          name: 'commodityOrigin',
+          title: '商品产地',
+          value: ''
+        },
+        'commodityWeigh': {
+          width: 250,
+          name: 'commodityWeigh',
+          title: '商品净重',
+          value: ''
+        },
+        'commodityUnit': {
+          width: 250,
+          name: 'commodityUnit',
+          title: '重量单位',
+          value: ''
+        },
+        'barCode': {
+          width: 450,
+          name: 'barCode',
+          title: '条形码',
+          value: ''
+        },
+        'commodityPhoto': {
+          name: 'commodityPhoto',
+          title: '商品图片'
+        },
+        'commoditySummary': {
+          name: 'commoditySummary',
+          title: '商品介绍',
+          value: ''
+        }
+      },
       button: {
         value: '提交',
-        submit: function() {
-          console.log('ass')
+        submit() {
+          let items = self.items;
+          /* let data = {
+            'commodityName': items.commodityName.value,
+            'commodityModel': items.commodityModel.value,
+            'commodityApply': items.commodityApply.value,
+            'commodityBrand': items.commodityBrand.value,
+            'commodityOrigin': items.commodityOrigin.value,
+            'commodityWeigh': items.commodityWeigh.value,
+            'commodityUnit': items.commodityUnit.value,
+            'barCode': items.barCode.value,
+            'commoditySummary': items.commoditySummary.value
+          };
+          Axios.post('/api/commodit/insertcommodityinfo', {
+            info: data,
+            classify: {
+              'ParentsId': '1'
+            }
+          }).then(function(res) {
+            console.log(res.data.htmlState.toUpperCase());
+          }); */
+          console.log(items.commodityName.value)
         }
       }
     }
@@ -106,7 +147,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .add {
   font-size: 14px;
   color: #656565;
@@ -155,6 +196,16 @@ export default {
 .add .textarea-box>textarea:focus {
   color: #656565;
   border: 1px solid #A9A9A9;
+}
+
+.add .text-box.special {
+  display: inline-flex;
+}
+
+.add .text-box.special label {
+  width: 70px;
+  padding-top: 3px;
+  text-align: right;
 }
 
 .add .images-box .title,
