@@ -1,28 +1,13 @@
-import inner from './inner'
+﻿import list from './list'
 import add from './add'
-import all from './all'
-import sale from './sale'
-import commodityDetails from './commodity-details'
 import sort from './sort'
-import appraise from './appraise'
-import appraiseDetails from './appraise-details'
-import recycle from './recycle'
+import brand from './brand'
+import extend from './extend'
 
 export default {
-  inner,
+  list,
   add,
-  all: {
-    inner: all,
-    details: commodityDetails
-  },
-  sale: {
-    inner: sale,
-    details: commodityDetails
-  },
   sort,
-  appraise: {
-    inner: appraise,
-    details: appraiseDetails
-  },
-  recycle
+  brand,
+  extend
 }

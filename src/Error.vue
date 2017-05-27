@@ -14,11 +14,11 @@
 </template>
 
 <script>
-import Router from '@/router'
 export default{
   methods:{
     backIndex(){
-      Router.push('/')
+      let self = this;
+      self.$router.push('/');
     }
   }
 }

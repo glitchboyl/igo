@@ -1,7 +1,7 @@
 import Vue from 'vue'
-import Index from './Index'
-import Router from './router'
-import Bus from '@/assets/eventBus'
+import App from './App'
+import router from './router'
+import Bus from './assets/eventBus'
 
 // 报错不给予页面提示.
 Vue.config.productionTip = false;
@@ -10,109 +10,72 @@ const group = {
   'commodity': {
     name: '商品管理',
     twigs: {
+      'list': {
+        name: '商品列表'
+      },
       'add': {
-        name: '添加新商品'
-      },
-      'all': {
-        name: '所有商品',
-        twigs: '商品详情'
-      },
-      'sale': {
-        name: '出售中的商品',
-        twigs: '商品详情'
+        name: '添加商品'
       },
       'sort': {
         name: '商品分类'
       },
-      'appraise': {
-        name: '商品评价管理',
-        twigs: '商品评价详情'
+      'brand': {
+        name: '商品品牌'
       },
-      'recycle': {
-        name: '商品回收站'
-      }
-    }
-  },
-  'promotions': {
-    name: '促销活动',
-    twigs: {
-      'today': {
-        name: '今日疯抢'
-      },
-      'discounts': {
-        name: '量贩优购'
-      },
-      'fresh': {
-        name: '生鲜购'
-      },
-      'oneyuan': {
-        name: '一元购'
+      'extend': {
+        name: '商品扩展属性'
       }
     }
   },
   'order': {
-    name: '订单管理',
-    twigs: '订单详情'
+    name: '订单管理'
   },
-  'delivery': {
-    name: '配送管理',
-    twigs: {
-      'await': {
-        name: '待发货'
-      },
-      'shipped': {
-        name: '已发货'
-      }
-    }
+  'member': {
+    name: '会员管理'
   },
-  'aftersale': {
-    name: '售后管理'
-  },
-  'users': {
-    name: '用户管理',
-    twigs: '用户详情'
+  'supplier': {
+    name: '供应商管理'
   }
 };
 
+function init(path) {
+  let items = path.replace('/', '').split('/');
+  let position = "主页";
+  if (items[0] != "login" && items[0] != "error") {
+    let position = "主页";
+    if (items[0] != '') {
+      position += " > " + group[items[0]].name;
+      if (items.length == 2) {
+        position += " > " + group[items[0]].twigs[items[1]].name;
+      };
+      if (items.length == 3) {
+        position += " > " + group[items[0]].twigs[items[1]].name;
+        if (group[items[0]].twigs[items[1]].twigs) {
+          position += " > " + group[items[0]].twigs[items[1]].twigs;
+        }
+      };
+    }
+    if (items[0] == "personal") {
+      position = "个人中心";
+    };
+    Bus.$emit("changePosition", {
+      item: items[0],
+      twig: items[1],
+      position: position
+    });
+  }
+}
+
 export default new Vue({
   el: '#app',
-  router: Router,
-  render: h => h(Index),
-  data() {
-    return {
-      init(path) {
-        let items = path.replace('/', '').split('/');
-        let position = "";
-        if (items[0] != "" && items[0] != "login" && items[0] != "404") {
-          if (items[0] != "order" && items[0] != "users") {
-            position = " > " + group[items[0]].name;
-            if (items.length == 2) {
-              position += " > " + group[items[0]].twigs[items[1]].name;
-            };
-            if (items.length == 3) {
-              position += " > " + group[items[0]].twigs[items[1]].name + " > " + group[items[0]].twigs[items[1]].twigs;
-            };
-          } else {
-            position = " > " + group[items[0]].name;
-            if (items.length == 2) {
-              position += " > " + group[items[0]].twigs;
-            };
-          };
-        };
-        Bus.$emit("changePosition", {
-          item: items[0],
-          twig: items[1],
-          position: position
-        });
-      }
-    }
-  },
+  router,
+  render: h => h(App),
   watch: {
     '$route' (to, from) {
-      this.init(to.path);
+      init(to.path);
     }
   },
   mounted() {
-    this.init(Router.app.$route.path);
+    init(router.app.$route.path);
   }
-});
+})

@@ -1,8 +1,33 @@
-@font-face { font-family: IconFont; src: url('../fonts/iconfont.eot'); src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'), url('../fonts/iconfont.woff') format('woff'), url('../fonts/iconfont.ttf') format('truetype'), url('../fonts/iconfont.svg#iconfont') format('svg'); }
+@font-face {
+    font-family: IconFont;
+    src: url('../fonts/iconfont.eot');
+    src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'), url('../fonts/iconfont.woff') format('woff'), url('../fonts/iconfont.ttf') format('truetype'), url('../fonts/iconfont.svg#iconfont') format('svg');
+}
 
-* { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+}
+
 body,
-html { font-family: 'Microsoft YaHei'; font-size: 14px; height: 100%; color: #333333; }
-::selection { color: #FFFFFF; background: rgba(0,0,0,.5); }
-ul { list-style: none; }
-a { text-decoration: none; }
+html {
+    font-family: 'Microsoft YaHei';
+    font-size: 14px;
+    height: 100%;
+    color: #333333;
+}
+
+::selection {
+    color: #FFFFFF;
+    background: rgba(0, 0, 0, .5);
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
