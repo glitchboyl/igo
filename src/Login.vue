@@ -1,22 +1,23 @@
 <template>
-  <div class="login">
+  <div class="login" @keyup.enter="login">
     <div class="login-box">
       <div class="header">爱GO商城后台管理系统</div>
       <div class="main">
         <div>
-          <input type="text" spellcheck="false" placeholder="用户名" />
+          <input type="text" spellcheck="false" placeholder="用户名" :value='username' v-model="username" />
           <span class="icon user"></span>
         </div>
         <div style="margin-top: 25px;">
-          <input type="password" placeholder="密码" />
+          <input type="password" placeholder="密码" :value='password' v-model="password" />
           <span class="icon pswd"></span>
         </div>
+        <div style="margin-top: 25px;">
+          <input type="text" spellcheck="false" placeholder="验证码" style="padding-right: 80px;" maxlength="4" :value='verifyCode' v-model="verifyCode" />
+          <img class="verifyCode" :src="captcha" @click="changeCaptcha" title="更换验证码" />
+        </div>
         <div style="margin-top: 26px; display: inline-flex; justify-content: space-between; align-items: center;">
-          <label class="remember" for="remember">
-              <input type="checkbox" name="remember" />
-              记住密码
-            </label>
-          <input class="login-button" type="button" value="登录" />
+          <label class="remember" for="remember"><input type="checkbox" name="remember" />记住密码</label>
+          <input class="login-button" type="button" value="登录" @click="login" />
         </div>
       </div>
     </div>
@@ -24,7 +25,75 @@
 </template>
 
 <script>
+  import JSEncrypt from '@/assets/jsencrypt'
+  import MD5 from '@/assets/md5'
   export default {
+    data() {
+      return {
+        username: '',
+        password: '',
+        verifyCode: '',
+        captcha: ''
+      }
+    },
+    methods: {
+      changeCaptcha() {
+        let self = this;
+        let Axios = self.$axios;
+        Axios.get('/public/system/getverificode').then(function(res) {
+          let result = res.data.dataResultObj;
+          self.captcha = 'data:image/png;base64,' + result.CodeImg;
+          localStorage.userToken = result.LoginToken;
+        })
+      },
+      login() {
+        let self = this;
+        let {
+          username,
+          password,
+          verifyCode
+        } = self;
+        if (username == '') {
+          alert('用户名不能为空!');
+          return;
+        }
+        if (password == '') {
+          alert('密码不能为空!');
+          return;
+        }
+        if (verifyCode == '') {
+          alert('请填写验证码!');
+          return;
+        }
+        let Axios = self.$axios;
+        Axios.get('/public/rsakey').then(function(res) {
+          return res.data.dataResultObj.RsaKey;
+        }).then(function(RsaKey) {
+          let encrypt = new JSEncrypt();
+          encrypt.setPublicKey(RsaKey);
+          username = encrypt.encrypt(MD5(MD5(username)));
+          password = encrypt.encrypt(MD5(MD5(password)));
+          Axios.post('/system/admin/login', {
+            username,
+            password,
+            IdentifyCode: verifyCode
+          }, {
+            headers: {
+              userToken: localStorage.userToken
+            }
+          }).then(function(res) {
+            localStorage.userToken = res.data.dataResultObj.LoginToken;
+          })
+        })
+      }
+    },
+    beforeMount() {
+      this.changeCaptcha();
+    },
+    mounted() {
+      let self = this;
+      let Axios = self.$axios;
+    }
   }
 </script>
 
@@ -101,5 +170,11 @@
   }
   .login .login-box .main .icon.pswd:before {
     content: '\e654';
+  }
+  .login .login-box .main .verifyCode {
+    right: 1px;
+    top: 7px;
+    position: absolute;
+    cursor: pointer;
   }
 </style>

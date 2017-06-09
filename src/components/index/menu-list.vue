@@ -46,17 +46,15 @@
         }, {
           name: 'order',
           title: '订单管理',
-          secondary: true,
+          secondary: false,
           isOpened: false,
-          isActived: false,
-          twigs: []
+          isActived: false
         }, {
           name: 'member',
           title: '会员管理',
-          secondary: true,
+          secondary: false,
           isOpened: false,
-          isActived: false,
-          twigs: []
+          isActived: false
         }, {
           name: 'supplier',
           title: '供应商管理',
@@ -148,7 +146,7 @@
     content: '\e607';
   }
   .menu .menu-list .menu-item#member .title:before {
-    content: '\e510';
+    content: '\e602';
   }
   .menu .menu-list .menu-item#supplier .title:before {
     content: '\e601';
