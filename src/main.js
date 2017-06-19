@@ -57,13 +57,16 @@ function init(path) {
     let position = "主页";
     if (items[0] != "") {
       position += " > " + group[items[0]].name;
-      if (items.length == 2) {
-        position += " > " + group[items[0]].twigs[items[1]].name;
-      }
-      if (items.length == 3) {
-        position += " > " + group[items[0]].twigs[items[1]].name;
-        if (group[items[0]].twigs[items[1]].twigs) {
-          position += " > " + group[items[0]].twigs[items[1]].twigs[items[2]].name;
+      if (items[0] != "order") {
+        if (items.length == 2) {
+          position += " > " + group[items[0]].twigs[items[1]].name;
+        }
+        if (items.length == 3) {
+          position += " > " + group[items[0]].twigs[items[1]].name;
+          if (group[items[0]].twigs[items[1]].twigs) {
+            position +=
+              " > " + group[items[0]].twigs[items[1]].twigs[items[2]].name;
+          }
         }
       }
     }

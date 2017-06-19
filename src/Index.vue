@@ -6,14 +6,14 @@
         <div class="datetime">{{ datetime }}</div>
         <div class="inner">你好！ {{ username }}</div>
         <!--<div class="extend">
-                <span class="caret" :class="{isOpen}" @click="open" v-click-outside="close"></span>
-                <ul class="list" v-if="isOpen">
-                  <li class="item" v-for="i in extend" :class="i.name" @click="goto(i.url)">{{ i.title }}</li>
-                </ul>
-              </div>
-              <div class="user-avatar">
-                <img :src="src" />
-              </div>-->
+                    <span class="caret" :class="{isOpen}" @click="open" v-click-outside="close"></span>
+                    <ul class="list" v-if="isOpen">
+                      <li class="item" v-for="i in extend" :class="i.name" @click="goto(i.url)">{{ i.title }}</li>
+                    </ul>
+                  </div>
+                  <div class="user-avatar">
+                    <img :src="src" />
+                  </div>-->
         <span class="quit">&#xe693;</span>
       </div>
     </header>
@@ -76,7 +76,7 @@
     },
     mounted() {
       let self = this;
-      Bus.$on('changePosition',function(obj){
+      Bus.$on('changePosition', function(obj) {
         self.position = obj.position;
       })
     }
@@ -192,10 +192,12 @@
   }
   .container .content .position {
     padding: 15px 20px;
+    color: #333333;
     border: 1px solid #DDDDDD;
   }
   .container .content .position:before {
     content: '\e63c';
+    color: #656565;
     font-family: IconFont;
     font-size: 24px;
     margin-top: -6px;

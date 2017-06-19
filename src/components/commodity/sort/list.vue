@@ -40,6 +40,7 @@
     border-right: 0;
   }
   .sort-list .header .title {
+    color: #333333;
     font-size: 14px;
     font-weight: 600;
   }

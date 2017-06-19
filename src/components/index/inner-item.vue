@@ -17,6 +17,7 @@
     flex-grow: 1;
     padding: 20px;
     margin-right: 15px;
+    color: #333333;
     font-size: 14px;
     text-align: center;
     border: 1px solid #DDDDDD;

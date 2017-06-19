@@ -48,6 +48,7 @@
     display: inline-flex;
   }
   .commodity-list .header>div {
+    color: #333333;
     border-right: 1px solid #DDDDDD;
     text-align: center;
     padding: 10px 0;

@@ -5,7 +5,8 @@ import Login from "@/Login";
 import Error from "@/Error";
 import Index from "@/components/index/inner";
 import Commodity from "@/components/commodity";
-// import Order from "@/components/order";
+import Order from "@/components/order";
+import Member from "@/components/member";
 
 Vue.use(Router);
 
@@ -78,11 +79,24 @@ export default new Router({
           name: "extend",
           component: Commodity.extend
         },
-        // {
-        //   path: "order",
-        //   name: "order",
-        //   component: Order
-        // }
+        {
+          path: "order",
+          redirect: "order/pending",
+          name: "order",
+          component: Order.inner,
+          children: [
+            {
+              path: "pending",
+              name: "pending",
+              component: Order.pending
+            }
+          ]
+        },
+        {
+          path: "member",
+          name: "member",
+          component: Member
+        }
       ]
     },
     {

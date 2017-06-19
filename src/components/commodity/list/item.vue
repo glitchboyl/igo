@@ -72,6 +72,7 @@
     border-top: 1px solid #DDDDDD;
   }
   .item>div {
+    color: #333333;
     font-size: 14px;
     border-right: 1px solid #DDDDDD;
     text-align: center;

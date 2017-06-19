@@ -92,11 +92,14 @@
             self.menuList[i].isActived = true;
           } else {
             self.menuList[i].isActived = false;
+            if (!self.menuList[i].secondary) {
+              self.menuList[i].isOpened = false;
+            }
           }
           for (let n in self.menuList[i].twigs) {
             if (self.menuList[i].twigs[n].name == obj.twig) {
               self.menuList[i].twigs[n].isActived = true;
-            } else{
+            } else {
               self.menuList[i].twigs[n].isActived = false;
             }
           }
@@ -111,6 +114,7 @@
     min-width: 170px;
     min-height: 500px;
     margin-right: 10px;
+    color: #333333;
     border: 1px solid #DDDDDD;
     cursor: default;
   }
