@@ -1,25 +1,24 @@
 <template>
   <div class="item">
     <div style="flex-basis: 3.5%">
-      <checkbox :settings="settings"></checkbox>
+      <checkbox :settings="i.settings"></checkbox>
     </div>
     <div style="flex-basis: 10%">
       <submit-button :button="edit"></submit-button>
       <submit-button :button="del"></submit-button>
     </div>
-    <div style="flex-basis: 34%;">{{ item.commodityName }}</div>
+    <div style="flex-basis: 34%;">{{ i.title }}</div>
     <div style="flex-basis: 7.5%">{{ scale }}</div>
-    <div style="flex-basis: 7.5%">{{ item.commodityNumber }}</div>
-    <div style="flex-basis: 7.5%">{{ item.sort }}</div>
-    <div style="flex-basis: 10%">{{ item.commodityBrand }}</div>
-    <div style="flex-basis: 5%">{{ item.kucun }}</div>
-    <div style="flex-basis: 5%">{{ item.price }}</div>
-    <div style="flex-basis: 5%">{{ item.marketprice }}</div>
+    <div style="flex-basis: 7.5%">{{ i.commodityNumber }}</div>
+    <div style="flex-basis: 7.5%">{{ i.commodityOrigin }}</div>
+    <div style="flex-basis: 15%">{{ i.commodityBrand }}</div>
+    <div style="flex-basis: 10%">{{ i.commodityModel }}</div>
     <div style="flex-basis: 5%">{{ shelf }}</div>
   </div>
 </template>
 
 <script>
+  import Bus from '@/assets/eventBus'
   import checkbox from '@/components/general/checkbox'
   import submitButton from '@/components/general/submit-button'
   export default {
@@ -27,10 +26,6 @@
     data() {
       let self = this;
       return {
-        settings: {
-          name: self.item.commodityId,
-          checked: false
-        },
         edit: {
           value: '编辑',
           style: {
@@ -49,18 +44,39 @@
       }
     },
     computed: {
+      i() {
+        let self = this;
+        return {
+          title: self.item.title,
+          commodityWeigh: self.item.dataResultList[0].commodityWeigh,
+          commodityUnit: self.item.dataResultList[0].commodityUnit,
+          commodityNumber: self.item.dataResultList[0].commodityNumber,
+          saleUnit: self.item.saleUnit,
+          commodityOrigin: self.item.dataResultList[0].commodityOrigin,
+          commodityBrand: self.item.dataResultList[0].commodityBrand,
+          commodityModel: self.item.dataResultList[0].commodityModel,
+          shelfState: self.item.shelfState,
+          settings: self.item.settings
+        };
+      },
       scale() {
         let self = this;
-        return self.item.commodityWeigh + self.item.commodityUnit;
+        return self.i.commodityWeigh + self.i.commodityUnit + '/' + self.i.saleUnit;
       },
       shelf() {
         let self = this;
-        return (self.item.isshelf ? '是' : '否');
+        return (self.i.shelfState == 1 ? '是' : '否');
       }
     },
     components: {
       checkbox,
       submitButton
+    },
+    mounted() {
+      let self = this;
+      Bus.$on('check-all', function(r) {
+        self.i.settings.checked = r;
+      })
     }
   }
 </script>

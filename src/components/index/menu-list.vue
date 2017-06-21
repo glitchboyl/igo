@@ -24,7 +24,7 @@
           isActived: false,
           twigs: [{
             name: 'list',
-            title: '商品列表',
+            title: '商城商品',
             isActived: false
           }, {
             name: 'add',

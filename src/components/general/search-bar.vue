@@ -22,23 +22,15 @@
         button: {
           value: '搜索',
           submit: function() {
-            let items = self.items;
-            let aka = str => str.match(/^\D/)[0] + str.match(/[A-Z]/)[0];
-            let query = self.$route.query;
-            let obj = {};
-            for (let i = 0; i < items.length; i++) {
-              if (items[i].value) {
-                obj[aka(items[i].name)] = items[i].value;
+            let query = {};
+            for (let i in self.items) {
+              if (self.items[i].value || self.items[i].value === 0) {
+                query[self.items[i].name] = self.items[i].value;
               }
             }
-            if (query.sq) {
-              self.showQuantity = query.sq;
-            }
-            obj.p = 1;
-            obj.sq = self.showQuantity;
             self.$router.push({
-              query: obj
-            });
+              query
+            })
           }
         }
       }

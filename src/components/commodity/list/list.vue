@@ -5,14 +5,12 @@
         <checkbox :settings="selectAll"></checkbox>
       </div>
       <div class="title" style="flex-basis: 10%">操作</div>
-      <div class="title" style="flex-basis: 34%;">商品名称</div>
+      <div class="title" style="flex-basis: 34%;">商品标题</div>
       <div class="title" style="flex-basis: 7.5%">商品规格</div>
-      <div class="title" style="flex-basis: 7.5%">商品货号</div>
-      <div class="title" style="flex-basis: 7.5%">分类</div>
-      <div class="title" style="flex-basis: 10%">品牌</div>
-      <div class="title" style="flex-basis: 5%">库存</div>
-      <div class="title" style="flex-basis: 5%">销售价</div>
-      <div class="title" style="flex-basis: 5%">市场价</div>
+      <div class="title" style="flex-basis: 7.5%">商品编号</div>
+      <div class="title" style="flex-basis: 7.5%">产地</div>
+      <div class="title" style="flex-basis: 15%">品牌</div>
+      <div class="title" style="flex-basis: 10%">型号</div>
       <div class="title" style="flex-basis: 5%">上下架</div>
     </div>
     <commodity-item v-for="item in commodityItems" :item="item" :key="item.commodityId"></commodity-item>
@@ -20,21 +18,38 @@
 </template>
 
 <script>
+  import Bus from '@/assets/eventBus'
   import checkbox from '@/components/general/checkbox'
   import commodityItem from './item'
   export default {
     props: ["commodityItems"],
     data() {
+      let self = this;
       return {
         selectAll: {
           name: 'select-all',
-          checked: false
+          checked: false,
+          click() {
+            Bus.$emit('check-all', self.selectAll.checked);
+          }
         }
       }
     },
     components: {
       checkbox,
       commodityItem
+    },
+    mounted() {
+      let self = this;
+      Bus.$on('check-all-or-not', function(r) {
+        let commodityItems = self.commodityItems;
+        for (let i = 0; i < commodityItems.length; i++) {
+          if (!commodityItems[i].settings.checked) {
+            self.selectAll.checked = false;
+          }
+        }
+        self.selectAll.checked = true;
+      })
     }
   }
 </script>

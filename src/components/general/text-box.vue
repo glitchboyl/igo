@@ -1,7 +1,7 @@
 <template>
   <div class="text-box">
-    <label v-if="todo.title"><span v-if="todo.necessary">*</span>{{ todo.title }}：</label>
-    <input type="text" :style="{ width: todo.width + 'px' }" :name="todo.name" :value="todo.value" v-model="todo.value" :placeholder="todo.placeholder" spellcheck="false" />
+    <label :for="todo.name" v-if="todo.title"><span v-if="todo.necessary">*</span>{{ todo.title }}：</label>
+    <input type="text" :style="{ width: todo.width + 'px' }" :id="todo.name" :name="todo.name" :value="todo.value" v-model="todo.value" :placeholder="todo.placeholder" spellcheck="false" />
   </div>
 </template>
 

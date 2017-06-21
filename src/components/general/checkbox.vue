@@ -1,5 +1,5 @@
 <template>
-  <label class="checkbox-container" :for="settings.name"><span v-show="settings.checked">&#xf032d;</span><input type="checkbox" :id="settings.name" class="checkbox" :checked="settings.checked" v-model="settings.checked" /></label>
+  <label class="checkbox-container" :for="settings.name"><span v-show="settings.checked">&#xf032d;</span><input type="checkbox" :id="settings.name" class="checkbox" :checked="settings.checked" v-model="settings.checked" @click="settings.click"/></label>
 </template>
 
 <script>

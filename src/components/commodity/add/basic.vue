@@ -16,8 +16,8 @@
     <text-box :todo="price" style="margin-left: 56px;"></text-box>
     <text-box :todo="reserve" style="margin-left: 70px;"></text-box>
     <text-box :todo="scale" style="margin-left: 42px;"></text-box>
-    <text-box :todo="img" style="margin-left: 14px;"></text-box>
-    <text-box :todo="thumbnails"></text-box>
+    <file-upload :todo="img" style="margin-left: 14px;"></file-upload>
+    <file-upload :todo="thumbnails"></file-upload>
     <div style="display: flex; align-items: center; margin-left: 128px;">
       <checkbox :settings="autoGenerate" style="margin-right: 8px;"></checkbox>
       自动生成商品缩略图
@@ -31,11 +31,14 @@
 
 <script>
   import textBox from '@/components/general/text-box'
+  import fileUpload from '@/components/general/file-upload'
   import chooseBox from '@/components/general/choose-box'
   import submitButton from '@/components/general/submit-button'
   import checkbox from '@/components/general/checkbox'
   export default {
     data() {
+      let self = this;
+      let Axios = self.$axios;
       return {
         commodityName: {
           name: 'commodityName',
@@ -132,15 +135,17 @@
         img: {
           name: 'img',
           title: '上传商品图片',
-          width: '200',
+          uploadText: '选择文件',
           value: '',
+          multiple: true,
           necessary: true
         },
         thumbnails: {
           name: 'thumbnails',
           title: '上传商品缩略图',
-          width: '200',
+          uploadText: '选择文件',
           value: '',
+          multiple: true,
           necessary: true
         },
         autoGenerate: {
@@ -153,7 +158,16 @@
             padding: '5px 20px',
             marginRight: '15px'
           },
-          submit: function() {}
+          submit: function() {
+            let fileList = self.img.value;
+            let form = new FormData();
+            for (let i = 0; i < fileList.length; i++) {
+              form.append('files', fileList[i]);
+            }
+            Axios.post('/api/qiniu/update', form, {}).then(function(res) {
+              console.log(res)
+            })
+          }
         },
         reset: {
           value: '重置',
@@ -168,6 +182,7 @@
     },
     components: {
       textBox,
+      fileUpload,
       chooseBox,
       submitButton,
       checkbox

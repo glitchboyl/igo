@@ -70,7 +70,7 @@ export default {
 
 <style scoped>
 .cascader {
-  height: 180px;
+  height: 100%;
   border: 1px solid #DDDDDD;
   border-top: 0;
   margin-right: -2px;

@@ -13,7 +13,7 @@ const group = {
     name: "商品管理",
     twigs: {
       list: {
-        name: "商品列表"
+        name: "商城商品"
       },
       add: {
         name: "添加商品"
