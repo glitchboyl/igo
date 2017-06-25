@@ -33,7 +33,8 @@
         username: '',
         password: '',
         verifyCode: '',
-        captcha: ''
+        captcha: '',
+        token: ''
       }
     },
     methods: {
@@ -43,7 +44,7 @@
         Axios.get('/public/system/getverificode').then(function(res) {
           let result = res.data.dataResultObj;
           self.captcha = 'data:image/png;base64,' + result.CodeImg;
-          localStorage.userToken = result.LoginToken;
+          self.token = result.LoginToken;
         })
       },
       login() {
@@ -79,10 +80,15 @@
             IdentifyCode: verifyCode
           }, {
             headers: {
-              userToken: localStorage.userToken
+              AdminToken: self.token
             }
           }).then(function(res) {
+            if (res.data.dataResultObj.LoginState == 'Error') {
+              alert(res.data.dataResultObj.Reason);
+              return;
+            }
             localStorage.userToken = res.data.dataResultObj.LoginToken;
+            self.$router.push('/');
           })
         })
       }

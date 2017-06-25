@@ -1,5 +1,5 @@
 <template>
-  <div class="support" style="padding: 20px;">
+  <div class="pagination-container">
     <div class="shows">
       每页显示数量：
       <span class="quantity" v-for="i in showQuantity" :class="{active:i.value == todo.showQuantity}" :key="i.value" @click="changeQuantity(i,showQuantity)">{{ i.value }}</span>
@@ -105,13 +105,15 @@
 </script>
 
 <style scoped>
-  .support {
-    padding: 6px 20px;
+  .pagination-container {
+    width: 100%;
+    padding: 20px 0 15px;
     display: inline-flex;
     align-items: baseline;
+    justify-content: space-between;
   }
   
-  .support .shows .quantity {
+  .pagination-container .shows .quantity {
     padding: 3px 5px;
     margin-right: 5px;
     text-align: center;
@@ -120,22 +122,17 @@
     cursor: pointer;
   }
   
-  .support .shows .quantity.active,
-  .support .pagination .page.active {
+  .pagination-container .shows .quantity.active,
+  .pagination-container .pagination .page.active {
     border: 1px solid #F1675F;
     color: #F1675F;
   }
   
-  .support .pagination {
-    flex-grow: 1;
-    text-align: right;
-  }
-  
-  .support .pagination .highlight {
+  .pagination-container .pagination .highlight {
     color: #F1675F;
   }
   
-  .support .pagination .page {
+  .pagination-container .pagination .page {
     padding: 3px 7px;
     margin-right: 5px;
     text-align: center;
@@ -144,12 +141,12 @@
     transition: border .3s;
   }
   
-  .support .pagination .page:not(.ellipsis):hover {
+  .pagination-container .pagination .page:not(.ellipsis):hover {
     cursor: pointer;
     border: 1px solid #999999;
   }
   
-  .support .pagination .page.ellipsis {
+  .pagination-container .pagination .page.ellipsis {
     border: 1px solid #FFFFFF;
   }
 </style>

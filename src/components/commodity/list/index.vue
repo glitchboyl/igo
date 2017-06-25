@@ -6,6 +6,7 @@
         <submit-button v-for="i in supportButtons" :button="i" :key="i.value"></submit-button>
       </div>
       <commodity-list :commodityItems="commodityItems"></commodity-list>
+      <pagination :todo="pagination"></pagination>
     </div>
   </div>
 </template>
@@ -14,6 +15,7 @@
   import Bus from '@/assets/eventBus'
   import searchBar from '@/components/general/search-bar'
   import submitButton from '@/components/general/submit-button'
+  import pagination from '@/components/general/pagination'
   import commodityList from './list'
   export default {
     data() {
@@ -78,13 +80,19 @@
           },
           submit: function() {}
         }],
-        commodityItems: null
+        commodityItems: null,
+        pagination: {
+          showQuantity: 10,
+          page: 1,
+          totalPage: 3
+        }
       }
     },
     components: {
       searchBar,
       submitButton,
-      commodityList
+      commodityList,
+      pagination
     },
     watch: {
       '$route' (to, from) {
@@ -99,11 +107,7 @@
         for (let i in to.query) {
           query[i] = to.query[i];
         }
-        Axios.post('/system/commoditdetails/selectallpage', query, {
-          headers: {
-            'AdminToken': localStorage.userToken
-          }
-        }).then(function(res) {
+        Axios.post('/system/commoditdetails/selectallpage', query).then(function(res) {
           let result = res.data.dataResultList;
           self.commodityItems = [];
           for (let i = 0; i < result.length; i++) {
@@ -131,11 +135,7 @@
       for (let i in self.$route.query) {
         query[i] = self.$route.query[i];
       }
-      Axios.post('/system/commoditdetails/selectallpage', query, {
-        headers: {
-          'AdminToken': localStorage.userToken
-        }
-      }).then(function(res) {
+      Axios.post('/system/commoditdetails/selectallpage', query).then(function(res) {
         let result = res.data.dataResultList;
         self.commodityItems = [];
         for (let i = 0; i < result.length; i++) {
@@ -163,11 +163,12 @@
 </script>
 
 <style scoped>
-  #commodity-list .inner-container {
-    padding: 10px 20px;
-    border: 1px solid #DDDDDD;
-  }
-  #commodity-list .inner-container .support {
-    margin-bottom: 10px;
-  }
+#commodity-list .inner-container {
+  padding: 10px 20px;
+  border: 1px solid #DDDDDD;
+}
+
+#commodity-list .inner-container .support {
+  margin-bottom: 10px;
+}
 </style>

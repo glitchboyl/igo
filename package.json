@@ -10,7 +10,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "vue": "^2.2.6",
+    "vue-click-outside": "^1.0.6",
     "vue-router": "^2.3.1"
   },
   "devDependencies": {

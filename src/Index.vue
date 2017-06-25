@@ -6,15 +6,15 @@
         <div class="datetime">{{ datetime }}</div>
         <div class="inner">你好！ {{ username }}</div>
         <!--<div class="extend">
-                    <span class="caret" :class="{isOpen}" @click="open" v-click-outside="close"></span>
-                    <ul class="list" v-if="isOpen">
-                      <li class="item" v-for="i in extend" :class="i.name" @click="goto(i.url)">{{ i.title }}</li>
-                    </ul>
-                  </div>
-                  <div class="user-avatar">
-                    <img :src="src" />
-                  </div>-->
-        <span class="quit">&#xe693;</span>
+                        <span class="caret" :class="{isOpen}" @click="open" v-click-outside="close"></span>
+                        <ul class="list" v-if="isOpen">
+                          <li class="item" v-for="i in extend" :class="i.name" @click="goto(i.url)">{{ i.title }}</li>
+                        </ul>
+                      </div>
+                      <div class="user-avatar">
+                        <img :src="src" />
+                      </div>-->
+        <span class="quit" @click="quit">&#xe693;</span>
       </div>
     </header>
     <div class="container">
@@ -40,7 +40,7 @@
         username: '用户',
         datetime: '1997年12月30日　19 : 58 : 11',
         src: '/static/images/doge.jpg',
-        position: '',
+        position: '主页',
         isOpen: false,
         extend: [{
           name: 'message',
@@ -72,6 +72,13 @@
         let self = this;
         self.isOpen = false;
         Router.push(url);
+      },
+      quit() {
+        let self = this;
+        if (confirm('确认退出吗？')) {
+          self.$router.push('/login');
+          localStorage.userToken = '';
+        }
       }
     },
     mounted() {
@@ -129,6 +136,7 @@
     font-size: 22px;
     line-height: 18px;
     float: right;
+    cursor: pointer;
   }
   .extend {
     position: relative;

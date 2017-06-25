@@ -46,6 +46,7 @@
         for (let i = 0; i < commodityItems.length; i++) {
           if (!commodityItems[i].settings.checked) {
             self.selectAll.checked = false;
+            return;
           }
         }
         self.selectAll.checked = true;

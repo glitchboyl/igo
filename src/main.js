@@ -7,6 +7,43 @@ import Bus from "./assets/eventBus";
 // 报错不给予页面提示.
 Vue.config.productionTip = false;
 Vue.prototype.$axios = Axios;
+Vue.prototype.$axios.interceptors.request.use(
+  config => {
+    if (localStorage.userToken) {
+      // 判断是否存在token，如果存在的话，则每个http header都加上token
+      config.headers.AdminToken = `${localStorage.userToken}`;
+    }
+    return config;
+  },
+  err => {
+    return Promise.reject(err);
+  }
+);
+Vue.prototype.$axios.interceptors.response.use(
+  response => {
+    if (response.data.status == "404") {
+      router.push("/login");
+    }
+    return response;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requireAuth)) {
+    if (localStorage.userToken) {
+      next();
+    } else {
+      next({
+        path: "/login"
+      });
+    }
+  } else {
+    next();
+  }
+});
 
 const group = {
   commodity: {
@@ -73,7 +110,7 @@ function init(path) {
     if (items[0] == "personal") {
       position = "个人中心";
     }
-    Bus.$emit("changePosition", {
+    return Bus.$emit("changePosition", {
       item: items[0],
       twig: items[1],
       position: position
